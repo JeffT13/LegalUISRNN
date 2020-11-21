@@ -3,7 +3,7 @@ import uisrnn
 
 '''
 - check toy data shape
-- import case, generate Z
+- import case (generate Z if necc)
 '''
 
 toy_train = np.load('data/toy_training_data.npz')
@@ -26,3 +26,13 @@ print(np.shape(np.unique(toy_test['test_cluster_ids'][0])))
 print(np.shape(toy_test['test_sequences'][1]))
 print(np.unique(toy_test['test_cluster_ids'][1]))
 print(np.shape(np.unique(toy_test['test_cluster_ids'][1])))
+
+
+"""
+training is one long sequence
+testing is multiple isolated examples
+
+we might do training in examples as well (by case)
+	- make sure longest case fits in GPU****
+
+"""
