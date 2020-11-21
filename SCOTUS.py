@@ -30,6 +30,7 @@ train_seqs = []
 train_labels = []
 test_items = []
 
+#expects processed cases in data folder (take from Google Drive or PRINCE)
 case_path = './data/SCOTUS_Processed/*/*'
 case_path = glob.glob(os.path.dirname(case_path))
 
