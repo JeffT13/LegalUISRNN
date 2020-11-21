@@ -36,3 +36,12 @@ we might do training in examples as well (by case)
 	- make sure longest case fits in GPU****
 
 """
+
+our_seq = np.load('data/SCOTUS_Processed/17-1268_SCOTUS/17-1268_sequence.npy', allow_pickle=True)
+our_id = np.load('data/SCOTUS_Processed/17-1268_SCOTUS/17-1268_cluster_id.npy', allow_pickle=True)
+
+print('SCOTUS 17-1268')
+print(np.shape(our_seq))
+print(np.shape(our_id))
+print(np.unique(our_id))
+print(np.shape(np.unique(our_id)))
