@@ -39,26 +39,38 @@ verbose = True
 for i, case in enumerate(case_path):
 
     case_id = case.split('/')[-1][:-7]
-    temp_seq = np.load(case+'/'+case_id+'_sequence.npy', allow_pickle=True)
-    temp_lab = np.load(case+'/'+case_id+'_cluster_id.npy', allow_pickle=True)
+    train_sequence = np.load(case+'/'+case_id+'_sequence.npy', allow_pickle=True)
+    train_cluster_id = np.load(case+'/'+case_id+'_cluster_id.npy', allow_pickle=True)
 
     if verbose:
-        print(case)
         print(case_id)
-        print(np.shape(temp_seq))
-        print(np.shape(temp_lab))
+        print('emb shape:', np.shape(train_sequence))
+        print('label shape:', np.shape(train_cluster_id))
 
     if i <= train_cases:
-        train_sequences.append(temp_seq)
-        train_cluster_ids.append(temp_lab)
+        trn_seq_lst.append(train_sequence)
+        trn_cluster_lst.append(train_cluster_id)
     else:
-        test_sequences.append(temp_seq)
-        test_cluster_ids.append(temp_lab)    
+        test_seq_lst.append(train_sequence)
+        test_cluster_lst.append(list(map(int, train_cluster_id)))  #convert to int  
 
 
-if verbose:
-    print(len(train_sequences))
-    print(len(test_sequences))
+
+
+if verbose
+        print('-'*50)
+        print(np.shape(train_sequences))
+        print(np.shape(train_cluster_ids))
+        print(np.shape(test_sequences))
+        print(np.shape(test_cluster_ids))
+        print('-'*50)
+        print('='*50)
+        for i in range(np.shape(train_sequences)[0]):
+            print('>'*10)
+            print(np.shape(train_sequences[i]))
+            print(np.shape(train_cluster_ids[i]))
+            print('<'*10)
+        print('='*50)
     
 #Define UISRNN
 model_args, training_args, inference_args = uisrnn.parse_arguments()
@@ -74,12 +86,28 @@ training_args.batch_size = 2
 inference_args.test_iteration = 2
 
 #model training **Use loop?**
-print('---------------', 'training')
+print('-'*10, 'training')
 model = uisrnn.UISRNN(model_args)
-model.fit(train_sequences, train_cluster_ids, training_args)
-if verbose:
-    print('---------------', 'training complete')
 
+for c in range(len(trn_seq_lst))
+    train_sequences = trn_seq_lst[c]
+    train_cluster_ids = trn_cluster_lst[c]
+    if verbose:
+        print('training case', c)
+    model.fit(train_sequences, train_cluster_ids, training_args)
+    
+    
+if verbose:
+    print('-'*10, 'training complete')
+
+
+
+print('-'*10, 'testing')
+for c in range(len(trn_seq_lst))
+    test_sequences = test_seq_lst[c]
+    test_cluster_ids = test_cluster_lst[c]
+    if verbose:
+        print('testing case', c)
 #evaluation has similar mechanic
 predicted_cluster_ids = model.predict(test_sequences, inference_args)
 
