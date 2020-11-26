@@ -59,6 +59,7 @@ for i, case in enumerate(case_path):
 
 if True:
     print(len(train_sequences))
+    
 #Define UISRNN
 model_args, training_args, inference_args = uisrnn.parse_arguments()
 model_args.verbosity=3
@@ -67,10 +68,12 @@ model_args.observation_dim=256 #from hparam techincally
 training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
 training_args.batch_size = 2
 
-#model training **Use loop?**
-model = uisrnn.UISRNN(model_args)
-model.fit(train_sequences, train_cluster_ids, training_args)
 
+#model training
+#model training **Use loop?**
+#model = uisrnn.UISRNN(model_args)
+#model.fit(train_sequences, train_cluster_ids, training_args)
+#torch.save(model.state_dict(), '/scratch/jt2565/uisrnn1.pth')
 #evaluation has similar mechanic
 #predicted_cluster_ids = model.predict(test_sequences, inference_args)
 
