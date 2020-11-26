@@ -22,7 +22,7 @@ Things to look into:
 '''
 
 #expects processed cases in data folder (take from Google Drive or PRINCE)
-case_path = './LegalUISRNN/data/SCOTUS_Processed/*/*'
+case_path = '/scratch/jt2565/SCOTUS_Processed/*/*'
 case_path = glob.glob(os.path.dirname(case_path))
 
 trn_seq_lst = []
@@ -102,11 +102,11 @@ for c in range(len(trn_seq_lst))
     model.fit(train_sequences, train_cluster_ids, training_args)
 if verbose:
     print('-'*10, 'training complete')
-    
-if True:
-    # attempt to save model
-    model.save('./localsamp_uisrnn.pth')
 
+# attempt to save model
+model.save('./localsamp_uisrnn.pth')  
+print('model saved')
+if True:
     print('-'*10, 'testing')
     for c in range(len(trn_seq_lst))
         test_sequences = test_seq_lst[c]
