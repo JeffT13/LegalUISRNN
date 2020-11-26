@@ -48,7 +48,10 @@ for i, case in enumerate(case_path):
         trn_cluster_lst.append(train_cluster_id)
     else:
         test_seq_lst.append(train_sequence)
-        test_cluster_lst.append(list(map(int, train_cluster_id)))  #convert to int
+        #convert label strings to int
+        for i in range(np.shape(train_cluster_id)[0]):
+            train_cluster_id[i] = list(map(int, train_cluster_id[i]))
+        test_cluster_lst.append(train_cluster_id) 
 
 
 if verbose:
