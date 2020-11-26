@@ -81,7 +81,7 @@ if verbose:
 model_args, training_args, inference_args = uisrnn.parse_arguments()
 model_args.verbosity=3
 model_args.observation_dim=256 #from hparam
-model_args.enable_cuda = False
+model_args.enable_cuda = True
 model_args.rnn_depth = 2
 model_args.rnn_hidden_size = 8
 training_args.learning_rate = 0.01
@@ -99,6 +99,10 @@ for c in range(len(trn_seq_lst))
     train_cluster_ids = trn_cluster_lst[c]
     if verbose:
         print('training case', c)
+       
+    if True:
+        train_sequences.to('cuda')
+        train_cluster_ids.to('cuda')
     model.fit(train_sequences, train_cluster_ids, training_args)
 if verbose:
     print('-'*10, 'training complete')
