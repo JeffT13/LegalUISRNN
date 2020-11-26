@@ -22,7 +22,7 @@ Things to look into:
 '''
 
 #expects processed cases in data folder (take from Google Drive or PRINCE)
-case_path = './scratch/jt2565/SCOTUS_Processed/*/*'
+case_path = '/scratch/jt2565/SCOTUS_Processed/*/*'
 case_path = glob.glob(os.path.dirname(case_path))
 
 total_cases = len(case_path)
