@@ -1,4 +1,6 @@
 import numpy as np
+import sys
+sys.path.append("./LegalUISRNN")
 import uisrnn
 
 '''
@@ -6,8 +8,8 @@ import uisrnn
 - import case (generate Z if necc)
 '''
 
-toy_train = np.load('data/toy_training_data.npz')
-toy_test = np.load('data/toy_testing_data.npz', allow_pickle=True)
+toy_train = np.load('./LegalUISRNN/data/toy_training_data.npz')
+toy_test = np.load('./LegalUISRNN/data/toy_testing_data.npz', allow_pickle=True)
 
 print('Train:', toy_train.files)
 print(np.shape(toy_train['train_sequence']))
@@ -37,8 +39,8 @@ we might do training in examples as well (by case)
 
 """
 
-our_seq = np.load('data/SCOTUS_Processed/17-1268_SCOTUS/17-1268_sequence.npy', allow_pickle=True)
-our_id = np.load('data/SCOTUS_Processed/17-1268_SCOTUS/17-1268_cluster_id.npy', allow_pickle=True)
+our_seq = np.load('./LegalUISRNN/data/SCOTUS_Processed/17-1268_SCOTUS/17-1268_sequence.npy', allow_pickle=True)
+our_id = np.load('./LegalUISRNN/data/SCOTUS_Processed/17-1268_SCOTUS/17-1268_cluster_id.npy', allow_pickle=True)
 
 print('SCOTUS 17-1268')
 print(np.shape(our_seq))
