@@ -26,9 +26,9 @@ case_path = './scratch/jt2565/SCOTUS_Processed/*/*'
 case_path = glob.glob(os.path.dirname(case_path))
 
 total_cases = len(case_path)
-train_case = total_cases//10*8
-print("# of training:", train_case)
-print("# total cases:" , total_case)
+train_cases = total_cases//10*8
+print("# of training:", train_cases)
+print("# total cases:" , total_cases)
 
 train_sequences = []
 train_cluster_ids = []
@@ -48,7 +48,7 @@ for i, case in enumerate(case_path):
         print(np.shape(temp_seq))
         print(np.shape(temp_lab))
 
-    if i < train_case:
+    if i <= train_cases:
         train_sequences.append(temp_seq)
         train_cluster_ids.append(temp_lab)
     else:
