@@ -77,7 +77,6 @@ inference_args.test_iteration = 2
 print('---------------', 'training')
 model = uisrnn.UISRNN(model_args)
 model.fit(train_sequences, train_cluster_ids, training_args)
-torch.save(model.state_dict(), './scsamp_uisrnn.pth')
 if verbose:
     print('---------------', 'training complete')
 
@@ -89,4 +88,4 @@ print('Asserting the equivalence between','\nGround truth: {}\nPredicted: {}'.fo
 accuracy = uisrnn.compute_sequence_match_accuracy(predicted_label, test_cluster_id)
 print('acc:', accuracy)
 
-
+model.save('./scsamp_uisrnn.pth')
