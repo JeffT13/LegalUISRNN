@@ -94,7 +94,7 @@ inference_args.test_iteration = 2
 print('-'*10, 'training')
 model = uisrnn.UISRNN(model_args)
 
-for c in range(len(trn_seq_lst))
+for c in range(len(trn_seq_lst)):
     train_sequences = trn_seq_lst[c]
     train_cluster_ids = trn_cluster_lst[c]
     if verbose:
@@ -112,7 +112,7 @@ model.save('./localsamp_uisrnn.pth')
 print('model saved')
 if True:
     print('-'*10, 'testing')
-    for c in range(len(trn_seq_lst))
+    for c in range(len(trn_seq_lst)):
         test_sequences = test_seq_lst[c]
         test_cluster_ids = test_cluster_lst[c]
         if verbose:
