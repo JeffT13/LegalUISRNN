@@ -88,7 +88,9 @@ model.logger.print(
         3, 'Asserting the equivalence between'
         '\nGround truth: {}\nPredicted: {}'.format(
             test_cluster_id, predicted_label))
-    accuracy = uisrnn.compute_sequence_match_accuracy(
-        predicted_label, test_cluster_id)
-    self.assertEqual(1.0, accuracy)
+print('Asserting the equivalence between'
+        '\nGround truth: {}\nPredicted: {}'.format(test_cluster_id, predicted_label))
+accuracy = uisrnn.compute_sequence_match_accuracy(predicted_label, test_cluster_id)
+print('acc:', accuracy)
+
 
