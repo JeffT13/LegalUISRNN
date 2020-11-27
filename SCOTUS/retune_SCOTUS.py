@@ -42,6 +42,8 @@ test_case_lst = []
 
 verbose = False #false for tuning
 flatten = False
+clump = 8
+
 for i, case in enumerate(case_path):
 
     case_id = case.split('/')[-1][:-7]
@@ -50,12 +52,25 @@ for i, case in enumerate(case_path):
 
     train_sequence = []
     train_cluster_id = []
+    
     for j in range(np.shape(train_seq)[0]):
-        train_sequence.append(train_seq[j])
-        if i <= train_cases:
-            train_cluster_id.append(train_clus[j])
-        else:
-            train_cluster_id.append(list(map(int, train_clus[j])))
+    
+        if clump>1:
+            if (j+1)%clump:
+                clump_seq.append(train_seq[j])
+                clump_clus.append(train_clus[j])
+            else:
+                train_sequence.append(clump_seq)
+                if i <= train_cases:
+                    train_cluster_id.append(clump_clus)
+                else:
+                    train_cluster_id.append(list(map(int,clump_clus)))
+        else:               
+            train_sequence.append(train_seq[j])
+            if i <= train_cases:
+                train_cluster_id.append(train_clus[j])
+            else:
+                train_cluster_id.append(list(map(int, train_clus[j])))
                
     if verbose:
         print('Processed case:', case_id)
@@ -65,9 +80,13 @@ for i, case in enumerate(case_path):
         print('label len:', len(train_cluster_id))    
     
 
-    if flatten:
+    if flatten and not clump:
         train_sequence  = np.concatenate(train_sequence, axis = 0)
         train_cluster_id = np.concatenate(train_cluster_id, axis = 0)
+        
+        
+        
+        
     if i <= train_cases:
         trn_seq_lst.append(train_sequence)
         trn_cluster_lst.append(train_cluster_id)
@@ -85,7 +104,6 @@ model_args.enable_cuda = True
 model_args.rnn_depth = 2
 model_args.rnn_hidden_size = 64
 training_args.learning_rate = 0.01
-training_args.train_iteration = 500
 training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
 training_args.batch_size = 5
 model = uisrnn.UISRNN(model_args)
@@ -101,7 +119,7 @@ if flatten:
     print('-'*10, 'training complete')
     
 else:
-    training_args.train_iteration = 40
+    training_args.train_iteration = 100
     print('-'*10, 'per case training for ', len(trn_seq_lst), 'cases')
 
     for e in range(epochs):
@@ -109,10 +127,11 @@ else:
         for c in range(len(trn_seq_lst)):
             train_sequences = trn_seq_lst[c]
             train_cluster_ids = trn_cluster_lst[c]
-            if verbose: #off for tuning
+            if True: 
                 print('training case', c)
                 print('list?', isinstance(train_sequences, list))
                 print('item type?', type(train_sequences[0]))
+                print('item shape?', np.shape(train_sequences[0]))
                 print('num utt', len(train_sequences))
 
             model.fit(train_sequences, train_cluster_ids, training_args)
