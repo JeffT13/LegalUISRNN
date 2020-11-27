@@ -1,11 +1,13 @@
 ''' SCOTUS d-vec UISRNN processing'''
 
 import sys
-sys.path.append("./LegalUISRNN")
-import numpy as np
-import torch
-import glob
 import os
+import csv
+import numpy as np
+import glob
+import torch
+
+sys.path.append("./LegalUISRNN")
 import uisrnn
 
 
@@ -36,6 +38,7 @@ trn_seq_lst = []
 trn_cluster_lst = []
 test_seq_lst = []
 test_cluster_lst = []
+test_case_lst = []
 
 verbose = True
 flatten = True
@@ -68,7 +71,8 @@ for i, case in enumerate(case_path):
     if i <= train_cases:
         trn_seq_lst.append(train_sequence)
         trn_cluster_lst.append(train_cluster_id)
-    else:
+    else:        
+        test_case_lst.append(case.split('/')[-1])
         test_seq_lst.append(train_sequence)
         test_cluster_lst.append(train_cluster_id) 
 
@@ -93,7 +97,7 @@ if flatten:
     
     for e in range(epochs):
         print('='*10, 'EPOCH ', e, '='*10)
-        model.fit(trn_sequence_lst, trn_cluster_lst, training_args)
+        model.fit(trn_seq_lst, trn_cluster_lst, training_args)
     print('-'*10, 'training complete')
     
 else:
@@ -119,3 +123,6 @@ else:
 model.save('./princetune_uisrnn.pth')  
 print('model saved')
 
+with open('./uisrnn_testcases.csv', 'w') as rm:
+    wr = csv.writer(rm, delimiter="\n")
+    wr.writerow(test_case_lst)
