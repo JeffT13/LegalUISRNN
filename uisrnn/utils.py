@@ -139,7 +139,7 @@ def concatenate_training_data(train_sequences, train_cluster_ids,
                                    for x in train_cluster_id]
   
   #added check
-  if True:
+  if False:
     print('util print- seq size:', concatenated_train_sequence.shape)
     print('util print- clus len:', len(concatenated_train_cluster_id))
     

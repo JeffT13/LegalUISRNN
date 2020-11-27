@@ -38,6 +38,7 @@ test_seq_lst = []
 test_cluster_lst = []
 
 verbose = True
+flatten - True
 for i, case in enumerate(case_path):
 
     case_id = case.split('/')[-1][:-7]
@@ -59,7 +60,11 @@ for i, case in enumerate(case_path):
         print('label shape:', np.shape(train_clus))
         print('emb len:', len(train_sequence))
         print('label len:', len(train_cluster_id))    
-           
+    
+
+    if flatten:
+        train_sequence  = np.concatenate(train_sequence, axis = 0)
+        train_cluster_id = np.concatenate(train_cluster_id, axis = 0)
     if i <= train_cases:
         trn_seq_lst.append(train_sequence)
         trn_cluster_lst.append(train_cluster_id)
@@ -74,30 +79,42 @@ model_args.verbosity=3
 model_args.observation_dim=256 #from hparam
 model_args.enable_cuda = True
 model_args.rnn_depth = 2
-model_args.rnn_hidden_size = 32
-training_args.learning_rate = 0.01
-training_args.train_iteration = 5
+model_args.rnn_hidden_size = 64
+training_args.learning_rate = 0.001
+training_args.train_iteration = 500
 training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
-training_args.batch_size = 3
+training_args.batch_size = 5
 model = uisrnn.UISRNN(model_args)
 
-
-print('-'*10, 'training')
 epochs = 10
-for e in range(epochs):
-    print('='*10, 'EPOCH ', e, '='*10)
-    for c in range(len(trn_seq_lst)):
-        train_sequences = trn_seq_lst[c]
-        train_cluster_ids = trn_cluster_lst[c]
-        if verbose:
-            print('training case', c)
-            print('list?', isinstance(train_sequences, list))
-            print('item type?', type(train_sequences[0]))
-            print('num utt', len(train_sequences))
 
-        model.fit(train_sequences, train_cluster_ids, training_args)
-print('-'*10, 'training complete')
+if flatten:
+    training_args.train_iteration = 500
+    
+    for e in range(epochs):
+        print('='*10, 'EPOCH ', e, '='*10)
+        model.fit(trn_sequence_lst, trn_cluster_lst, training_args)
+    print('-'*10, 'training complete')
+    
+else:
+    training_args.train_iteration = 25
+    print('-'*10, 'training')
 
+    for e in range(epochs):
+        print('='*10, 'EPOCH ', e, '='*10)
+        for c in range(len(trn_seq_lst)):
+            train_sequences = trn_seq_lst[c]
+            train_cluster_ids = trn_cluster_lst[c]
+            if verbose:
+                print('training case', c)
+                print('list?', isinstance(train_sequences, list))
+                print('item type?', type(train_sequences[0]))
+                print('num utt', len(train_sequences))
+
+            model.fit(train_sequences, train_cluster_ids, training_args)
+    print('-'*10, 'training complete')
+
+    
 # attempt to save model
 model.save('./princetune_uisrnn.pth')  
 print('model saved')
