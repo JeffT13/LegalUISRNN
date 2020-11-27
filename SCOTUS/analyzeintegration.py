@@ -101,14 +101,15 @@ class TestIntegration(unittest.TestCase):
         for i in range(np.shape(train_sequences)[0]):
             print('>'*10)
             print(np.shape(train_sequences[i]))
-            print(np.shape(test_cluster_ids[i]))
+            print(np.shape(train_cluster_ids[i]))
             print('+'*5)
             print(train_sequences[i][0:5][:])
-            print(test_cluster_ids[i][0:5])
+            print(train_cluster_ids[i][0:5])
             print('<'*10)
         print('='*50)
         
-        
+    print(type(train_sequences[0]))
+    print(len(train_sequences))    
     #print(train_sequences[0][:25])
     #print(train_cluster_ids[0][:25])
     if False:
@@ -127,6 +128,9 @@ class TestIntegration(unittest.TestCase):
         model = uisrnn.UISRNN(model_args)
 
         # run training, and save the model
+        
+        print(type(train_sequences))
+        print(len(train_sequences))
         model.fit(train_sequences, train_cluster_ids, training_args)
         temp_file_path = tempfile.mktemp()
         model.save(temp_file_path)

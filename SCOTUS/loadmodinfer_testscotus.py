@@ -22,60 +22,51 @@ Things to look into:
 '''
 
 #expects processed cases in data folder (take from Google Drive or PRINCE)
+
+#expects processed cases in data folder (take from Google Drive or PRINCE)
 case_path = '/scratch/jt2565/SCOTUS_Processed/*/*'
 case_path = glob.glob(os.path.dirname(case_path))
 
-trn_seq_lst = []
-trn_cluster_lst = []
-test_seq_lst = []
-test_cluster_lst = []
+total_cases = len(case_path)
+train_cases = total_cases//10*8
+print("# of training:", train_cases)
+print("# total cases:" , total_cases)
+
+train_sequences = []
+train_cluster_ids = []
+test_sequences = []
+test_cluster_ids = []
 
 verbose = True
-train_cases = 4
 for i, case in enumerate(case_path):
 
     case_id = case.split('/')[-1][:-7]
-    train_sequence = np.load(case+'/'+case_id+'_sequence.npy', allow_pickle=True)
-    train_cluster_id = np.load(case+'/'+case_id+'_cluster_id.npy', allow_pickle=True)
+    train_seq = np.load(case+'/'+case_id+'_sequence.npy', allow_pickle=True)
+    train_clus = np.load(case+'/'+case_id+'_cluster_id.npy', allow_pickle=True)
 
-    if False:
-        print(case_id)
-        print('emb shape:', np.shape(train_sequence))
-        print('label shape:', np.shape(train_cluster_id))
-
+    train_sequence = []
+    train_cluster_id = []
+    for j in range(np.shape(train_seq)[0]):
+        train_sequence.append(train_seq[j])
+        if i > train_cases:
+            train_cluster_id = list(map(int, train_clus[j]))
+        train_cluster_id.append(train_clus[j])
+               
+    if verbose:
+        print('Processed case:', case_id)
+        print('emb shape:', np.shape(train_seq))
+        print('label shape:', np.shape(train_clus))
+        print('emb len:', len(train_sequence))
+        print('label len:', len(train_cluster_id))    
+           
     if i <= train_cases:
         trn_seq_lst.append(train_sequence)
         trn_cluster_lst.append(train_cluster_id)
     else:
+        if i>=5: #cap at 5 files
+            break
         test_seq_lst.append(train_sequence)
-        test_cluster_lst.append(list(map(int, train_cluster_id)))  #convert to int
-
-
-if verbose:
-    print('train') 
-    print('='*50)
-    for c in range(len(trn_seq_lst)):
-        print('case', c+1)
-        print('emb shape:', np.shape(trn_seq_lst[c]))
-        print('label shape:', np.shape(trn_cluster_lst[c]))
-        print('-'*50)
-        for u in range(np.shape(trn_seq_lst[c])[0]):
-            print('utterance', u)
-            print('>'*10)
-            print(np.shape(trn_seq_lst[c][u]))
-            print(np.shape(trn_cluster_lst[c][u]))
-            #print('+'*5)
-            #print(trn_seq_lst[c][u][:3])
-            #print(trn_cluster_lst[c][u][0:3])
-            if all(ele == trn_cluster_lst[c][u][0] for ele in trn_cluster_lst[c][u]):
-                print("good labels")
-            else:
-                print("bad labels")
-            print('<'*10)
-            if u>=2:
-                break
-    print('='*50)
- 
+        test_cluster_lst.append(train_cluster_id)
 
 #Define UISRNN
 model_args, training_args, inference_args = uisrnn.parse_arguments()
