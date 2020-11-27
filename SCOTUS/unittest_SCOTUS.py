@@ -44,9 +44,10 @@ for i, case in enumerate(case_path):
     train_cluster_id = []
     for j in range(np.shape(train_seq)[0]):
         train_sequence.append(train_seq[j])
-        if i > train_cases:
-            temp = list(map(int, train_clus[j]))
-        train_cluster_id.append(temp)
+        if i <= train_cases:
+            train_cluster_id.append(train_clus[j])
+        else:
+            train_cluster_id.append(list(map(int, train_clus[j])))
                
     if verbose:
         print('Processed case:', case_id)
@@ -59,11 +60,10 @@ for i, case in enumerate(case_path):
         trn_seq_lst.append(train_sequence)
         trn_cluster_lst.append(train_cluster_id)
     else:
-        if i>=5: #cap at 5 files
-            break
         test_seq_lst.append(train_sequence)
         test_cluster_lst.append(train_cluster_id) 
-
+    if i>=5: #cap at 5 files
+        break
     
 
 if False:
