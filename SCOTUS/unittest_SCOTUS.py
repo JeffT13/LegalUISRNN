@@ -45,8 +45,8 @@ for i, case in enumerate(case_path):
     for j in range(np.shape(train_seq)[0]):
         train_sequence.append(train_seq[j])
         if i > train_cases:
-            train_cluster_id = list(map(int, train_clus[j]))
-        train_cluster_id.append(train_clus[j])
+            temp = list(map(int, train_clus[j]))
+        train_cluster_id.append(temp)
                
     if verbose:
         print('Processed case:', case_id)
@@ -83,7 +83,7 @@ if verbose:
         print('emb shape:', len(trn_seq_lst[c]))
         print('label shape:', len(trn_cluster_lst[c]))
         print('-'*50)
-        for u in range(lwn(trn_seq_lst[c])):
+        for u in range(len(trn_seq_lst[c])):
             print('utterance', u)
             print('>'*10)
             print(np.shape(trn_seq_lst[c][u]))
