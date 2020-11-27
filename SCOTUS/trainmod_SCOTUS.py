@@ -30,10 +30,10 @@ train_cases = total_cases//10*8
 print("# of training:", train_cases)
 print("# total cases:" , total_cases)
 
-train_sequences = []
-train_cluster_ids = []
-test_sequences = []
-test_cluster_ids = []
+trn_seq_lst = []
+trn_cluster_lst = []
+test_seq_lst = []
+test_cluster_lst = []
 
 verbose = True
 for i, case in enumerate(case_path):
