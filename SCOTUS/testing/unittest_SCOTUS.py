@@ -26,7 +26,6 @@ Things to look into:
 case_path = '/scratch/jt2565/SCOTUS_Processed/*/*'
 
 case_path = glob.glob(os.path.dirname(case_path))
-
 trn_seq_lst = []
 trn_cluster_lst = []
 test_seq_lst = []
@@ -121,56 +120,58 @@ if verbose:
                 break
     print('='*50)
 
-#Define UISRNN
-model_args, training_args, inference_args = uisrnn.parse_arguments()
-model_args.verbosity=3
-model_args.observation_dim=256 #from hparam
-model_args.enable_cuda = True
-model_args.rnn_depth = 2
-model_args.rnn_hidden_size = 128
-training_args.learning_rate = 0.01
-training_args.train_iteration = 200
-training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
-training_args.batch_size = 2
-inference_args.test_iteration = 2 
-model = uisrnn.UISRNN(model_args)
 
-print('-'*10, 'training')
-for c in range(len(trn_seq_lst)):
-    train_sequences = trn_seq_lst[c]
-    train_cluster_ids = trn_cluster_lst[c]
+if False: # kinda useless test
+    #Define UISRNN
+    model_args, training_args, inference_args = uisrnn.parse_arguments()
+    model_args.verbosity=3
+    model_args.observation_dim=256 #from hparam
+    model_args.enable_cuda = True
+    model_args.rnn_depth = 2
+    model_args.rnn_hidden_size = 128
+    training_args.learning_rate = 0.01
+    training_args.train_iteration = 200
+    training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
+    training_args.batch_size = 2
+    inference_args.test_iteration = 2 
+    model = uisrnn.UISRNN(model_args)
+
+    print('-'*10, 'training')
+    for c in range(len(trn_seq_lst)):
+        train_sequences = trn_seq_lst[c]
+        train_cluster_ids = trn_cluster_lst[c]
+        if verbose:
+            print('training case', c)
+            print('list?', isinstance(train_sequences, list))
+            print('item type?', type(train_sequences[0]))
+            print('num utt', len(train_sequences))
+
+        model.fit(train_sequences, train_cluster_ids, training_args)
     if verbose:
-        print('training case', c)
-        print('list?', isinstance(train_sequences, list))
-        print('item type?', type(train_sequences[0]))
-        print('num utt', len(train_sequences))
-
-    model.fit(train_sequences, train_cluster_ids, training_args)
-if verbose:
-    print('-'*10, 'training complete')
+        print('-'*10, 'training complete')
 
 
-# attempt to save model
-model.save('./localsamp_uisrnn.pth')  
-print('model saved')
+    # attempt to save model
+    model.save('./localsamp_uisrnn.pth')  
+    print('model saved')
 
 
-print('-'*10, 'testing')
-for c in range(len(trn_seq_lst)):
-    test_sequences = test_seq_lst[c]
-    test_cluster_id = test_cluster_lst[c]
-    if verbose:
-        print('testing case', c)
-        
-    #evaluation has similar mechanic
-    predicted_cluster_ids = model.predict(test_sequences, inference_args)
-    print(type(predicted_cluster_ids))
-    print('='*50)
-    if False:
-        model.logger.print(3, 'Asserting the equivalence between \nGround truth: {}\nPredicted: {}'.format(test_cluster_id, predicted_label))
-        print('Asserting the equivalence between','\nGround truth: {}\nPredicted: {}'.format(test_cluster_id, predicted_label))
-        accuracy = uisrnn.compute_sequence_match_accuracy(predicted_label, test_cluster_id)
-        print('acc:', accuracy)
-    break  
+    print('-'*10, 'testing')
+    for c in range(len(trn_seq_lst)):
+        test_sequences = test_seq_lst[c]
+        test_cluster_id = test_cluster_lst[c]
+        if verbose:
+            print('testing case', c)
+            
+        #evaluation has similar mechanic
+        predicted_cluster_ids = model.predict(test_sequences, inference_args)
+        print(type(predicted_cluster_ids))
+        print('='*50)
+        if False:
+            model.logger.print(3, 'Asserting the equivalence between \nGround truth: {}\nPredicted: {}'.format(test_cluster_id, predicted_label))
+            print('Asserting the equivalence between','\nGround truth: {}\nPredicted: {}'.format(test_cluster_id, predicted_label))
+            accuracy = uisrnn.compute_sequence_match_accuracy(predicted_label, test_cluster_id)
+            print('acc:', accuracy)
+        break  
 
 

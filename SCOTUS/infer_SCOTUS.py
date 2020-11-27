@@ -22,11 +22,10 @@ Things to look into:
 '''
 
 #expects processed cases in data folder (take from Google Drive or PRINCE)
+#case_path = './LegalUISRNN/data/SCOTUS_Processed/*/*'  # local path
+case_path = '/scratch/jt2565/SCOTUS_Processed/*/*'      # prince path
 
-#expects processed cases in data folder (take from Google Drive or PRINCE)
-case_path = '/scratch/jt2565/SCOTUS_Processed/*/*'
 case_path = glob.glob(os.path.dirname(case_path))
-
 total_cases = len(case_path)
 train_cases = total_cases//10*8
 print("# of training:", train_cases)
@@ -78,7 +77,7 @@ inference_args.test_iteration = 2
 
 
 # attempt to save model
-model.load('./localsamp_uisrnn.pth')
+model.load('./princetune_uisrnn.pth')
 
 print('-'*10, 'testing')
 for c in range(len(trn_seq_lst))
