@@ -111,6 +111,7 @@ model_args.observation_dim=256 #from hparam
 model_args.enable_cuda = True
 model_args.rnn_depth = 3
 model_args.rnn_hidden_size = 64
+model_args.crp_alpha = .5 #\in [0, 1]
 training_args.learning_rate = 0.01
 training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
 training_args.batch_size = 5
