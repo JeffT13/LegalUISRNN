@@ -93,22 +93,6 @@ for c in range(len(trn_seq_lst)):
 print('-'*10, 'training complete')
 
 # attempt to save model
-model.save('./localsamp_uisrnn.pth')  
+model.save('./princesamp_uisrnn.pth')  
 print('model saved')
 
-if False:
-    print('-'*10, 'testing')
-    for c in range(len(trn_seq_lst))
-        test_sequences = test_seq_lst[c]
-        test_cluster_ids = test_cluster_lst[c]
-        if verbose:
-            print('testing case', c)
-    #evaluation has similar mechanic
-    predicted_cluster_ids = model.predict(test_sequences, inference_args)
-
-    model.logger.print(3, 'Asserting the equivalence between \nGround truth: {}\nPredicted: {}'.format(test_cluster_id, predicted_label))
-    print('Asserting the equivalence between','\nGround truth: {}\nPredicted: {}'.format(test_cluster_id, predicted_label))
-    accuracy = uisrnn.compute_sequence_match_accuracy(predicted_label, test_cluster_id)
-    print('acc:', accuracy)
-
-    model.save('./scsamp_uisrnn.pth')
