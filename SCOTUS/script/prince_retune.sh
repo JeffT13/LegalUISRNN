@@ -6,6 +6,5 @@
 #SBATCH --gres=gpu:1
 #SBATCH --mem=8GB
 #SBATCH --job-name=uis_tune
-#SBATCH --output=uisrnn_tune.out
 
 python LegalUISRNN/SCOTUS/retune_SCOTUS.py

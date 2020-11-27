@@ -52,7 +52,8 @@ for i, case in enumerate(case_path):
 
     train_sequence = []
     train_cluster_id = []
-    
+    clump_seq = []
+    clump_clus = []
     for j in range(np.shape(train_seq)[0]):
     
         if clump>1:
@@ -60,11 +61,15 @@ for i, case in enumerate(case_path):
                 clump_seq.append(train_seq[j])
                 clump_clus.append(train_clus[j])
             else:
+                clump_seq = np.concatenate(clump_seq, axis=0)
+                clump_clus = np.concatenate(clump_clus, axis=0)
                 train_sequence.append(clump_seq)
                 if i <= train_cases:
                     train_cluster_id.append(clump_clus)
                 else:
                     train_cluster_id.append(list(map(int,clump_clus)))
+                clump_seq = []
+                clump_clus = []
         else:               
             train_sequence.append(train_seq[j])
             if i <= train_cases:
@@ -77,7 +82,9 @@ for i, case in enumerate(case_path):
         print('emb shape:', np.shape(train_seq))
         print('label shape:', np.shape(train_clus))
         print('emb len:', len(train_sequence))
-        print('label len:', len(train_cluster_id))    
+        print('label len:', len(train_cluster_id))
+        if clump>1:
+            print('utt len:', 
     
 
     if flatten and not clump:
