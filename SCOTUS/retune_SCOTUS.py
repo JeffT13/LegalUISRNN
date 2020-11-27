@@ -41,7 +41,7 @@ test_cluster_lst = []
 test_case_lst = []
 
 verbose = False #false for tuning
-flatten = True
+flatten = False
 for i, case in enumerate(case_path):
 
     case_id = case.split('/')[-1][:-7]
