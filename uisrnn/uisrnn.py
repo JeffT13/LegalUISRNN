@@ -379,7 +379,7 @@ class UISRNN:
          train_sequences,
          train_cluster_ids,
          args.enforce_cluster_id_uniqueness,
-         True)
+         False) #edited for SCOTUS
 
     self.fit_concatenated(
         concatenated_train_sequence, concatenated_train_cluster_id, args)

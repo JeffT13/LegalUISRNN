@@ -137,6 +137,11 @@ def concatenate_training_data(train_sequences, train_cluster_ids,
   concatenated_train_sequence = np.concatenate(train_sequences, axis=0)
   concatenated_train_cluster_id = [x for train_cluster_id in train_cluster_ids
                                    for x in train_cluster_id]
+                                   
+  if True:
+    print('util print- seq size:', concatenated_train_sequence.shape)
+    print('util print- clus len:', len(concatenated_train_cluster_id))
+    
   return concatenated_train_sequence, concatenated_train_cluster_id
 
 
