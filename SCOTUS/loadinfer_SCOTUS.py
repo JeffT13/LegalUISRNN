@@ -48,9 +48,10 @@ for i, case in enumerate(case_path):
     train_cluster_id = []
     for j in range(np.shape(train_seq)[0]):
         train_sequence.append(train_seq[j])
-        if i > train_cases:
-            train_cluster_id = list(map(int, train_clus[j]))
-        train_cluster_id.append(train_clus[j])
+        if i <= train_cases:
+            train_cluster_id.append(train_clus[j])
+        else:
+            train_cluster_id.append(list(map(int, train_clus[j])))
                
     if verbose:
         print('Processed case:', case_id)
@@ -63,16 +64,14 @@ for i, case in enumerate(case_path):
         trn_seq_lst.append(train_sequence)
         trn_cluster_lst.append(train_cluster_id)
     else:
-        if i>=5: #cap at 5 files
-            break
         test_seq_lst.append(train_sequence)
-        test_cluster_lst.append(train_cluster_id)
+        test_cluster_lst.append(train_cluster_id) 
 
 #Define UISRNN
 model_args, training_args, inference_args = uisrnn.parse_arguments()
 model_args.verbosity=3
 model_args.observation_dim=256 #from hparam
-model_args.enable_cuda = False
+model_args.enable_cuda = True
 model_args.rnn_depth = 2
 model_args.rnn_hidden_size = 8
 inference_args.test_iteration = 2 
