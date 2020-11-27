@@ -25,8 +25,6 @@ Things to look into:
 #case_path = './LegalUISRNN/data/SCOTUS_Processed/*/*'  # local path
 case_path = '/scratch/jt2565/SCOTUS_Processed/*/*'      # prince path
 
-
-
 case_path = glob.glob(os.path.dirname(case_path))
 
 total_cases = len(case_path)
@@ -55,7 +53,7 @@ for i, case in enumerate(case_path):
         else:
             train_cluster_id.append(list(map(int, train_clus[j])))
                
-    if verbose:
+    if False: #off for tuning
         print('Processed case:', case_id)
         print('emb shape:', np.shape(train_seq))
         print('label shape:', np.shape(train_clus))
@@ -83,20 +81,24 @@ training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
 training_args.batch_size = 2
 model = uisrnn.UISRNN(model_args)
 
-print('-'*10, 'training')
-for c in range(len(trn_seq_lst)):
-    train_sequences = trn_seq_lst[c]
-    train_cluster_ids = trn_cluster_lst[c]
-    if verbose:
-        print('training case', c)
-        print('list?', isinstance(train_sequences, list))
-        print('item type?', type(train_sequences[0]))
-        print('num utt', len(train_sequences))
 
-    model.fit(train_sequences, train_cluster_ids, training_args)
+print('-'*10, 'training')
+epochs = 20
+for e in range(epochs):
+    print('='*10, 'EPOCH ', e, '='*10)
+    for c in range(len(trn_seq_lst)):
+        train_sequences = trn_seq_lst[c]
+        train_cluster_ids = trn_cluster_lst[c]
+        if verbose:
+            print('training case', c)
+            print('list?', isinstance(train_sequences, list))
+            print('item type?', type(train_sequences[0]))
+            print('num utt', len(train_sequences))
+
+        model.fit(train_sequences, train_cluster_ids, training_args)
 print('-'*10, 'training complete')
 
 # attempt to save model
-model.save('./princesamp_uisrnn.pth')  
+model.save('./princetune_uisrnn.pth')  
 print('model saved')
 
