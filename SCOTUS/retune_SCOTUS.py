@@ -84,7 +84,8 @@ for i, case in enumerate(case_path):
         print('emb len:', len(train_sequence))
         print('label len:', len(train_cluster_id))
         if clump>1:
-            print('utt len:', 
+            print('utt emb shape:', np.shape(train_sequence[0]))
+            print('utt lab shape:', np.shape(train_cluster_id[0]))
     
 
     if flatten and not clump:
@@ -108,7 +109,7 @@ model_args, training_args, inference_args = uisrnn.parse_arguments()
 model_args.verbosity=3 #prints model performance
 model_args.observation_dim=256 #from hparam
 model_args.enable_cuda = True
-model_args.rnn_depth = 2
+model_args.rnn_depth = 3
 model_args.rnn_hidden_size = 64
 training_args.learning_rate = 0.01
 training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
