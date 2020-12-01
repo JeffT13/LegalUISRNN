@@ -88,100 +88,83 @@ class TestIntegration(unittest.TestCase):
     test_sequence = _generate_random_sequence(
         test_cluster_id, label_to_center, sigma=0.01)
 
+    # construct model
+    model_args, training_args, inference_args = uisrnn.parse_arguments()
+    model_args.enable_cuda = True #for prince
+    model_args.rnn_depth = 2
+    model_args.rnn_hidden_size = 8
+    model_args.observation_dim = 2
+    model_args.verbosity = 3
+    training_args.learning_rate = 0.01
+    training_args.train_iteration = 200
+    training_args.enforce_cluster_id_uniqueness = False
+    inference_args.test_iteration = 2
 
-    if False:
-        print('train')
-        print('-'*50)
-        print(np.shape(train_sequences))
-        print(np.shape(train_cluster_ids))
-        #print(np.shape(test_sequence))
-        #print(np.shape(test_cluster_id))
-        print('-'*50)
-        print('='*50)
-        for i in range(np.shape(train_sequences)[0]):
-            print('>'*10)
-            print(np.shape(train_sequences[i]))
-            print(np.shape(train_cluster_ids[i]))
-            print('+'*5)
-            print(train_sequences[i][0:5][:])
-            print(train_cluster_ids[i][0:5])
-            print('<'*10)
-        print('='*50)
-        
-    #print(type(train_sequences[0]))
-    #print(len(train_sequences))    
-    #print(train_sequences[0][:25])
-    #print(train_cluster_ids[0][:25])
-    if False:
-        # construct model
-        model_args, training_args, inference_args = uisrnn.parse_arguments()
-        model_args.enable_cuda = False
-        model_args.rnn_depth = 2
-        model_args.rnn_hidden_size = 8
-        model_args.observation_dim = 2
-        model_args.verbosity = 3
-        training_args.learning_rate = 0.01
-        training_args.train_iteration = 200
-        training_args.enforce_cluster_id_uniqueness = False
-        inference_args.test_iteration = 2
+    model = uisrnn.UISRNN(model_args)
+    if verbose:
+        print("Training prints")
+        print('TYPES(seq, id):', type(train_sequences), type(train_cluster_ids))
+        print('emb shape:', np.shape(train_sequences))
+        print('label shape:', np.shape(train_sequences[0]))
+        print('flat label:', np.shape(train_cluster_ids[0]))
+        print('*'*10, '\n\n')
+    # run training, and save the model
+    model.fit(train_sequences, train_cluster_ids, training_args)
+    temp_file_path = tempfile.mktemp()
+    model.save(temp_file_path)
 
-        model = uisrnn.UISRNN(model_args)
+    # run testing
+    predicted_label = model.predict(test_sequence, inference_args)
+    
+    if verbose:
+        print("Prediction prints")
+        print(type(predicted_label)
+        print(len(predicted_label))
+        print('*'*10, '\n\n')
+    # run evaluation
+    model.logger.print(
+        3, 'Asserting the equivalence between'
+        '\nGround truth: {}\nPredicted: {}'.format(
+            test_cluster_id, predicted_label))
+    accuracy = uisrnn.compute_sequence_match_accuracy(
+        predicted_label, test_cluster_id)
+    self.assertEqual(1.0, accuracy)
 
-        # run training, and save the model
-        
-        print(type(train_sequences))
-        print(len(train_sequences))
-        model.fit(train_sequences, train_cluster_ids, training_args)
-        temp_file_path = tempfile.mktemp()
-        model.save(temp_file_path)
+    # load new model
+    loaded_model = uisrnn.UISRNN(model_args)
+    loaded_model.load(temp_file_path)
 
-        # run testing
-        predicted_label = model.predict(test_sequence, inference_args)
+    # run testing with loaded model
+    predicted_label = loaded_model.predict(test_sequence, inference_args)
 
-        # run evaluation
-        model.logger.print(
-            3, 'Asserting the equivalence between'
-            '\nGround truth: {}\nPredicted: {}'.format(
-                test_cluster_id, predicted_label))
-        accuracy = uisrnn.compute_sequence_match_accuracy(
-            predicted_label, test_cluster_id)
-        self.assertEqual(1.0, accuracy)
+    # run evaluation with loaded model
+    model.logger.print(
+        3, 'Asserting the equivalence between'
+        '\nGround truth: {}\nPredicted: {}'.format(
+            test_cluster_id, predicted_label))
+    accuracy = uisrnn.compute_sequence_match_accuracy(
+        predicted_label, test_cluster_id)
+    self.assertEqual(1.0, accuracy)
 
-        # load new model
-        loaded_model = uisrnn.UISRNN(model_args)
-        loaded_model.load(temp_file_path)
+    # keep training from loaded model on a subset of training data
+    transition_bias_1 = model.transition_bias
+    training_args.learning_rate = 0.001
+    training_args.train_iteration = 50
+    model.fit(train_sequence[:100, :], train_cluster_id[:100], training_args)
+    transition_bias_2 = model.transition_bias
+    self.assertNotAlmostEqual(transition_bias_1, transition_bias_2)
+    model.logger.print(
+        3, 'Asserting transition_bias changed from {} to {}'.format(
+            transition_bias_1, transition_bias_2))
 
-        # run testing with loaded model
-        predicted_label = loaded_model.predict(test_sequence, inference_args)
-
-        # run evaluation with loaded model
-        model.logger.print(
-            3, 'Asserting the equivalence between'
-            '\nGround truth: {}\nPredicted: {}'.format(
-                test_cluster_id, predicted_label))
-        accuracy = uisrnn.compute_sequence_match_accuracy(
-            predicted_label, test_cluster_id)
-        self.assertEqual(1.0, accuracy)
-
-        # keep training from loaded model on a subset of training data
-        transition_bias_1 = model.transition_bias
-        training_args.learning_rate = 0.001
-        training_args.train_iteration = 50
-        model.fit(train_sequence[:100, :], train_cluster_id[:100], training_args)
-        transition_bias_2 = model.transition_bias
-        self.assertNotAlmostEqual(transition_bias_1, transition_bias_2)
-        model.logger.print(
-            3, 'Asserting transition_bias changed from {} to {}'.format(
-                transition_bias_1, transition_bias_2))
-
-        # run evaluation
-        model.logger.print(
-            3, 'Asserting the equivalence between'
-            '\nGround truth: {}\nPredicted: {}'.format(
-                test_cluster_id, predicted_label))
-        accuracy = uisrnn.compute_sequence_match_accuracy(
-            predicted_label, test_cluster_id)
-        self.assertEqual(1.0, accuracy)
+    # run evaluation
+    model.logger.print(
+        3, 'Asserting the equivalence between'
+        '\nGround truth: {}\nPredicted: {}'.format(
+            test_cluster_id, predicted_label))
+    accuracy = uisrnn.compute_sequence_match_accuracy(
+        predicted_label, test_cluster_id)
+    self.assertEqual(1.0, accuracy)
 
 
 if __name__ == '__main__':
