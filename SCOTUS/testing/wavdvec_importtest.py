@@ -96,7 +96,7 @@ for i, casespkr in enumerate(spkr_path):
         else:
             print("-- Stored as train case --")
         print('Processed case:', case_id)
-        print('emb shape:', np.shape(train_seq)
+        print('emb shape:', np.shape(train_seq))
         print('label shape:', np.shape(train_clus))
         print('flat emb:', np.shape(train_sequence))
         print('flat label:', np.shape(train_cluster_id))      
