@@ -31,7 +31,6 @@ for i, case in enumerate(os.listdir(case_path)):
     if case[-7:] == 'seq.wav':
         case_id = case.split('/')[-1].split('_')[0]
         
-        
         train_sequence = np.load(case+'/'+case_id+'_seq.npy')
         train_clus = np.load(case+'/'+case_id+'_id.npy')
         train_cluster_id = []
@@ -70,12 +69,14 @@ for i, case in enumerate(os.listdir(case_path)):
 for i, casespkr in enumerate(spkr_path):
 
     case_id = casespkr.split('/')[-1][:-7]
-    train_sequence = np.load(casespkr+'/'+case_id+'_sequence.npy')
-    train_clus = np.load(casespkr+'/'+case_id+'_cluster_id.npy')
+    train_seq = np.load(casespkr+'/'+case_id+'_sequence.npy',allow_pickle=True)
+    train_clus = np.load(casespkr+'/'+case_id+'_cluster_id.npy', allow_pickle=True)
+    train_sequence = []
     train_cluster_id = []
     
     #converts labels to int for inference/testing
     for j in range(np.shape(train_clus)[0]):
+        train_sequence.append(train_seq[j])
         if i <= train_cases:
             train_cluster_id.append(train_clus[j])
         else:
