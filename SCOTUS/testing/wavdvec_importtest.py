@@ -51,6 +51,7 @@ for i, case in enumerate(os.listdir(case_path)):
             else:
                 print("-- Stored as train case --")
             print('Processed case:', case_id)
+            print('TYPES(seq, id):', type(train_sequence), type(train_cluster_id))
             print('emb shape:', np.shape(train_sequence))
             print('label shape:', np.shape(train_clus))
             print('flat label:', np.shape(train_cluster_id))    
@@ -98,6 +99,7 @@ for i, casespkr in enumerate(spkr_path):
         else:
             print("-- Stored as train case --")
         print('Processed case:', case_id)
+        print('TYPES(seq, id):', type(train_sequence), type(train_cluster_id))
         print('emb shape:', np.shape(train_seq))
         print('label shape:', np.shape(train_clus))
         print('flat emb:', np.shape(train_sequence))
