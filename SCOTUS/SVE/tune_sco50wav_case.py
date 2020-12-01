@@ -8,7 +8,7 @@ import os
 import uisrnn
 
 case_path = '/scratch/jt2565/sco50/sco50wav_proc_case/'
-total_cases = ((len(os.listdir(case_path))/2)
+total_cases = (len(os.listdir(case_path))/2)
 train_cases = (total_cases//10)*9
 print("# of training:", train_cases)
 print("# total cases:" , total_cases)

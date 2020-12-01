@@ -6,7 +6,6 @@
 #SBATCH --gres=gpu:1
 #SBATCH --mem=8GB
 #SBATCH --job-name=spkrtune
-#SBATCH --output=spkr_tune.out
+#SBATCH --output=spkrwavtune.out
 
 python LegalUISRNN/SCOTUS/SVE/tune_sco50wav_spkr.py
-echo complete
