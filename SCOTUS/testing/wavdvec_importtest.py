@@ -39,7 +39,7 @@ for i, case in enumerate(os.listdir(case_path)):
         #converts labels to int for inference/testing
         for j in range(np.shape(train_clus)[0]):
             if i <= train_cases:
-                train_cluster_id.append(train_clus[j])
+                train_cluster_id.append(str(train_clus[j]))
             else:
                 train_cluster_id.append(int(train_clus[j]))
             if j==(np.shape(train_clus)[0]-1):        

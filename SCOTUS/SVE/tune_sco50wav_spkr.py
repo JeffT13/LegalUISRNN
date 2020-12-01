@@ -21,7 +21,7 @@ trn_cluster_lst = []
 test_seq_lst = []
 test_cluster_lst = []
 
-verbose = True
+verbose = False
 
 if verbose:
     print("\n", "="*50, "\n Processing spkr-embedded d-vec")
@@ -74,9 +74,9 @@ model_args.enable_cuda = True
 model_args.rnn_depth = 2
 model_args.rnn_hidden_size = 64
 training_args.learning_rate = 0.01
-training_args.train_iteration = 500
+training_args.train_iteration = 5000
 training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
-training_args.batch_size = 5
+training_args.batch_size = 10
 model = uisrnn.UISRNN(model_args)
 
 
@@ -93,6 +93,6 @@ print('-'*10, 'training complete')
 
 
 # attempt to save model
-model.save('./princesamp_uisrnn.pth')  
+model.save('./sco50wav_spkr.pth')   
 print('model saved')
 

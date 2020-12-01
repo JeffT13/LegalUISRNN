@@ -37,7 +37,7 @@ for i, case in enumerate(os.listdir(case_path)):
         #converts labels to int for inference/testing
         for j in range(np.shape(train_clus)[0]):
             if i <= train_cases:
-                train_cluster_id.append(train_clus[j])
+                train_cluster_id.append(str(train_clus[j]))
             else:
                 train_cluster_id.append(int(train_clus[j]))
             if j==(np.shape(train_clus)[0]-1):        
@@ -76,7 +76,6 @@ training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
 training_args.batch_size = 5
 model = uisrnn.UISRNN(model_args)
 
-
 #TRAIN
 model.fit(trn_seq_lst, trn_cluster_lst, training_args)
 
@@ -90,6 +89,6 @@ print('-'*10, 'training complete')
 
 
 # attempt to save model
-model.save('./princesamp_uisrnn.pth')  
+model.save('./sco50wav_case.pth')  
 print('model saved')
 
