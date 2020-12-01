@@ -13,7 +13,7 @@ case_path = '/scratch/jt2565/sco50/sco50wav_proc_case/*'      # prince path
 spkr_path = '/scratch/jt2565/sco50/sco50wav_proc_spkr/*/*'      # prince path
 
 case_path = glob.glob(os.path.dirname(case_path))
-spkr_path = glob.glob(os.path.dirname(case_path))
+spkr_path = glob.glob(os.path.dirname(spkr_path))
 
 train_cases = 2 #3 train, 2 test
 trn_seq_lst = []
