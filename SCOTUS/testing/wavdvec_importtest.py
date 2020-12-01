@@ -31,8 +31,8 @@ for i, case in enumerate(os.listdir(case_path)):
     if case[-7:] == 'seq.npy':
         case_id = case.split('/')[-1].split('_')[0]
         
-        train_sequence = np.load(case+'/'+case_id+'_seq.npy')
-        train_clus = np.load(case+'/'+case_id+'_id.npy')
+        train_sequence = np.load(case)
+        train_clus = np.load(case[:-7]+'id.npy')
         train_cluster_id = []
         
         
