@@ -23,12 +23,12 @@ test_cluster_lst = []
 verbose = True
 
 if verbose:
-    print('WAV (SVE) d-vec testing')
-    
-    
+    print("WAV (SVE) d-vec testing")
+    print("\n", "="*50, "\n Processing case-embedded d-vec")
+        
 #load 5 case-embedded dvecs (with directory holding raw files)
 for i, case in enumerate(os.listdir(case_path)):
-    if case[-7:] == 'seq.wav':
+    if case[-7:] == 'seq.npy':
         case_id = case.split('/')[-1].split('_')[0]
         
         train_sequence = np.load(case+'/'+case_id+'_seq.npy')
@@ -42,16 +42,16 @@ for i, case in enumerate(os.listdir(case_path)):
                 train_cluster_id.append(train_clus[j])
             else:
                 train_cluster_id.append(list(map(int, train_clus[j])))
-                   
+        train_cluster_id = np.concatenate(train_cluster_id, axis = 0)           
         if verbose:
-            
             if i > train_cases:
-                    print("-- Stored as test case --")
+                print("-- Stored as test case --")
+            else:
+                print("-- Stored as train case --")
             print('Processed case:', case_id)
             print('emb shape:', np.shape(train_sequence))
             print('label shape:', np.shape(train_clus))
-            print('emb len:', len(train_sequence))
-            print('label len:', len(train_cluster_id))    
+            print('flat label:', np.shape(train_cluster_id))    
                
         #add to training or testing list (for multiple cases       
         if i <= train_cases:
@@ -62,10 +62,15 @@ for i, case in enumerate(os.listdir(case_path)):
             test_cluster_lst.append(train_cluster_id) 
         if i>=4:
             print(" ---- By case-embedded d-vec importation complete---- ")
+            print('train items:', len(trn_seq_lst))
+            print('test items:', len(test_seq_lst))
             break
 
     
 #load 5 spkr-embedded dvecs (where each case has own dir)
+
+if verbose:
+    print("\n\n\n\n", "="*50, "\n Processing spkr-embedded d-vec")
 for i, casespkr in enumerate(spkr_path):
 
     case_id = casespkr.split('/')[-1][:-7]
@@ -81,18 +86,20 @@ for i, casespkr in enumerate(spkr_path):
             train_cluster_id.append(train_clus[j])
         else:
             train_cluster_id.append(list(map(int, train_clus[j])))
-               
+       
+    train_sequence  = np.concatenate(train_sequence, axis = 0)
+    train_cluster_id = np.concatenate(train_cluster_id, axis = 0)   
+
     if verbose:
-        
         if i > train_cases:
-                print("-- Stored as test case --")
+            print("-- Stored as test case --")
+        else:
+            print("-- Stored as train case --")
         print('Processed case:', case_id)
-        print('emb shape:', np.shape(train_sequence))
+        print('emb shape:', np.shape(train_seq)
         print('label shape:', np.shape(train_clus))
-        print('emb len:', len(train_sequence))
-        print('label len:', len(train_cluster_id))    
-           
-    #add to training or testing list (for multiple cases       
+        print('flat emb:', np.shape(train_sequence))
+        print('flat label:', np.shape(train_cluster_id))      
     if i <= train_cases:
         trn_seq_lst.append(train_sequence)
         trn_cluster_lst.append(train_cluster_id)
@@ -101,5 +108,7 @@ for i, casespkr in enumerate(spkr_path):
         test_cluster_lst.append(train_cluster_id) 
     if i>=4:
         print(" ---- By spkr-embedded d-vec importation complete---- ")
+        print('train items:', len(trn_seq_lst))
+        print('test items:', len(test_seq_lst))
         break
 
