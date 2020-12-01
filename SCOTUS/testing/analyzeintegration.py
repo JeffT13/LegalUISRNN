@@ -101,6 +101,7 @@ class TestIntegration(unittest.TestCase):
     inference_args.test_iteration = 2
 
     model = uisrnn.UISRNN(model_args)
+    verbose = True
     if verbose:
         print("Training prints")
         print('TYPES(seq, id):', type(train_sequences), type(train_cluster_ids))
@@ -119,7 +120,7 @@ class TestIntegration(unittest.TestCase):
     if verbose:
         print("Prediction prints")
         print(type(predicted_label))
-        print(len(predicted_label))
+        #print(len(predicted_label))
         print('*'*10, '\n\n')
     # run evaluation
     model.logger.print(
