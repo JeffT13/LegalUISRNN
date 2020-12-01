@@ -7,4 +7,4 @@
 #SBATCH --mem=8GB
 #SBATCH --job-name=uis_tune
 
-python LegalUISRNN/SCOTUS/retune_SCOTUS.py
+python LegalUISRNN/SCOTUS/SVE/retune_SCOTUS.py

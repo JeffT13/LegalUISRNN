@@ -22,8 +22,7 @@ Things to look into:
 '''
 
 #expects processed cases in data folder (take from Google Drive or PRINCE)
-#case_path = '/scratch/jt2565/SCOTUSfull_Processed/*/*' # full prince path
-case_path = '/scratch/jt2565/SCOTUS_Processed/*/*'      # prince path
+case_path = '/scratch/jt2565/sco50/sco50wav_proc_case/*/*'      # prince path
 
 
 
