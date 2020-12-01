@@ -118,7 +118,7 @@ class TestIntegration(unittest.TestCase):
     
     if verbose:
         print("Prediction prints")
-        print(type(predicted_label)
+        print(type(predicted_label))
         print(len(predicted_label))
         print('*'*10, '\n\n')
     # run evaluation
