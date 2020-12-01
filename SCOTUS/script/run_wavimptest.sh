@@ -9,4 +9,3 @@
 #SBATCH --output=wavdvec_test.out
 
 python LegalUISRNN/SCOTUS/testing/wavdvec_importtest.py
-echo completetest

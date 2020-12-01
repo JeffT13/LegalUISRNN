@@ -41,8 +41,9 @@ for i, case in enumerate(os.listdir(case_path)):
             if i <= train_cases:
                 train_cluster_id.append(train_clus[j])
             else:
-                train_cluster_id.append(list(map(int, train_clus[j])))
-        train_cluster_id = np.concatenate(train_cluster_id, axis = 0)           
+                train_cluster_id.append(int(train_clus[j]))
+                if j==(np.shape(train_clus)[0]-1):        
+                    train_cluster_id = np.asarray(train_cluster_id)           
         if verbose:
             if i > train_cases:
                 print("-- Stored as test case --")

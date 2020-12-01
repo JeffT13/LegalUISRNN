@@ -89,7 +89,7 @@ class TestIntegration(unittest.TestCase):
         test_cluster_id, label_to_center, sigma=0.01)
 
 
-    if True:
+    if False:
         print('train')
         print('-'*50)
         print(np.shape(train_sequences))
@@ -108,8 +108,8 @@ class TestIntegration(unittest.TestCase):
             print('<'*10)
         print('='*50)
         
-    print(type(train_sequences[0]))
-    print(len(train_sequences))    
+    #print(type(train_sequences[0]))
+    #print(len(train_sequences))    
     #print(train_sequences[0][:25])
     #print(train_cluster_ids[0][:25])
     if False:
