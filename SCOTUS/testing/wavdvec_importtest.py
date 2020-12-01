@@ -61,7 +61,7 @@ for i, case in enumerate(os.listdir(case_path)):
         else:
             test_seq_lst.append(train_sequence)
             test_cluster_lst.append(train_cluster_id) 
-        if i>=4:
+        if i>=4: #careful with enumerate as files get skipped by i iterates
             print(" ---- By case-embedded d-vec importation complete---- ")
             print('train items:', len(trn_seq_lst))
             print('test items:', len(test_seq_lst))
