@@ -24,7 +24,7 @@ trn_cluster_lst = []
 test_seq_lst = []
 test_cluster_lst = []
 
-verbose = False
+verbose = True
 
 if verbose:
     print("WAV (SVE) d-vec testing")
