@@ -79,9 +79,10 @@ model = uisrnn.UISRNN(model_args)
 model.load('./hold/sco50wav_case.pth')
 
 
-#inference and evaluation
-pred = model.predict(test_seq_lst[0], inference_args)
-ans = test_cluster_id[0]
+#inference and evaluation (shrunk for running)
+
+pred = model.predict(test_seq_lst[0][:500], inference_args)
+ans = test_cluster_lst[0][:500]
 
 if verbose:
     print("-- Inference --")
