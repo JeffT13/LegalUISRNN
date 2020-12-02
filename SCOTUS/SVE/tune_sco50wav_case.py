@@ -68,8 +68,9 @@ model_args, training_args, inference_args = uisrnn.parse_arguments()
 model_args.verbosity=3 #can verbose=False for no prints except training
 model_args.observation_dim=256 #from hparam
 model_args.enable_cuda = True
-model_args.rnn_depth = 2
-model_args.rnn_hidden_size = 64
+model_args.rnn_depth = 1
+#model_args.crp_alpha = .5
+model_args.rnn_hidden_size = 32
 training_args.learning_rate = 0.001
 training_args.train_iteration = 1000
 training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
