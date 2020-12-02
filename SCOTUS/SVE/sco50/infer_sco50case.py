@@ -98,8 +98,8 @@ with file:
     write.writerows([pred]) 
 
 tracker=0
-for i in enumerate(pred):
-    if i!=0:
+for i, p in enumerate(pred):
+    if p!=0:
         tracker+=1
         
 if tracker>0:
