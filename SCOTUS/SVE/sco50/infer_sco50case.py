@@ -86,8 +86,8 @@ ans = [i for i in test_cluster_lst[0][:500]]
 
 if verbose:
     print("-- Inference --")
-    print(type(pred))
-    print(type(ans))
+    print(type(pred), type(pred[0]))
+    print(type(ans), type(ans[0]))
     print(len(pred), len(ans))
 
 # opening the csv file in 'w+' mode 
@@ -95,4 +95,4 @@ file = open('./predicted_labels.csv', 'w+', newline ='')
 # writing the data into the file 
 with file:     
     write = csv.writer(file) 
-    write.writerows(pred) 
+    write.writerows([pred]) 
