@@ -69,7 +69,7 @@ model_args.verbosity=3 #can verbose=False for no prints except training
 model_args.observation_dim=256 #from hparam
 model_args.enable_cuda = True
 model_args.rnn_depth = 2
-model_args.rnn_hidden_size = 64
+model_args.rnn_hidden_size = 32
 model_args.rnn_dropout = .2
 model_args.crp_alpha = .8
 #model_args.transition_bias, sigma2 = estimated
@@ -77,7 +77,7 @@ model_args.crp_alpha = .8
 training_args.learning_rate = 0.001
 training_args.train_iteration = 500
 training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
-training_args.batch_size = 5
+training_args.batch_size = None
 model = uisrnn.UISRNN(model_args)
 
 #TRAIN
