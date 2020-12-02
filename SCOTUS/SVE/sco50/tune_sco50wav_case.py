@@ -19,7 +19,7 @@ trn_cluster_lst = []
 test_seq_lst = []
 test_cluster_lst = []
 
-verbose = True
+verbose = False
 
 if verbose:
     print("\n", "="*50, "\n Processing case-embedded d-vec")
