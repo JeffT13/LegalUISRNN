@@ -75,10 +75,10 @@ model_args.crp_alpha = .8
 #model_args.transition_bias, sigma2 = estimated
 
 training_args.learning_rate = 0.001
-training_args.train_iteration = 500
+training_args.train_iteration = 60
 training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
-training_args.batch_size = None
-model = uisrnn.UISRNN(model_args)
+training_args.batch_size = 10
+model = uisrnn.UISRNN(model_args) 
 
 #TRAIN
 model.fit(trn_seq_lst, trn_cluster_lst, training_args)
