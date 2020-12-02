@@ -76,7 +76,7 @@ model_args.rnn_hidden_size = 32
 model = uisrnn.UISRNN(model_args)
 
 #load model
-model.load('~/hold/sco50wav_case.pth')
+model.load('./hold/sco50wav_case.pth')
 
 #inference and evaluation
 predicted_label = model.predict(test_seq_lst, inference_args)
