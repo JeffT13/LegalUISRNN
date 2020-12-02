@@ -18,7 +18,7 @@ trn_cluster_lst = []
 test_seq_lst = []
 test_cluster_lst = []
 
-verbose = True
+verbose = False
 
 if verbose:
     print("\n", "="*50, "\n Processing case-embedded d-vec")
@@ -63,7 +63,7 @@ for i, case in enumerate(os.listdir(case_path)):
             
 
 #Define UISRNN (**copy from training**)
-model_args, inference_args = uisrnn.parse_arguments()
+model_args, training_args, inference_args = uisrnn.parse_arguments()
 model_args.verbosity=3 #can verbose=False for no prints except training
 model_args.observation_dim=256 #from hparam
 model_args.enable_cuda = True

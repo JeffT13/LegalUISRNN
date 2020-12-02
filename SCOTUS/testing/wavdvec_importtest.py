@@ -9,18 +9,20 @@ import uisrnn
 
 
 #expects processed cases in data folder (take from Google Drive or PRINCE)
-case_path = '/scratch/jt2565/sco50/sco50wav_proc_case/'      # prince path
-spkr_path = '/scratch/jt2565/sco50/sco50wav_proc_spkr/*/*'      # prince path
+#case_path = '/scratch/jt2565/sco50/sco50wav_proc_case/' 
+case_path = '/mnt/c/Fall2020/Capstone/LegalUISRNN/data/sco50wav_proc_case/'
 
-spkr_path = glob.glob(os.path.dirname(spkr_path))
 
-train_cases = 2 #3 train, 2 test
+total_cases = (len(os.listdir(case_path))/2)
+train_cases = (total_cases//10)*9
+print("# of training:", train_cases)
+print("# total cases:" , total_cases)
 trn_seq_lst = []
 trn_cluster_lst = []
 test_seq_lst = []
 test_cluster_lst = []
 
-verbose = True
+verbose = False
 
 if verbose:
     print("WAV (SVE) d-vec testing")
@@ -63,15 +65,29 @@ for i, case in enumerate(os.listdir(case_path)):
         else:
             test_seq_lst.append(train_sequence)
             test_cluster_lst.append(train_cluster_id) 
-        if i>=4: #careful with enumerate as files get skipped by i iterates
+        if False: # i>=4 careful with enumerate as files get skipped by i iterates
             print(" ---- By case-embedded d-vec importation complete---- ")
             print('train items:', len(trn_seq_lst))
             print('test items:', len(test_seq_lst))
             break
 
-    
-#load 5 spkr-embedded dvecs (where each case has own dir)
 
+
+# Visualize dvecs
+
+
+concat_trn = np.concatenate(trn_seq_lst)
+print(concat_trn.shape)
+print(np.max(concat_trn))
+print(np.min(concat_trn))
+print(np.isnan(concat_trn).any()) 
+
+
+
+''' 
+#load 5 spkr-embedded dvecs (where each case has own dir)
+spkr_path = '/scratch/jt2565/sco50/sco50wav_proc_spkr/*/*'      # prince path
+spkr_path = glob.glob(os.path.dirname(spkr_path))
 if verbose:
     print("\n\n\n\n", "="*50, "\n Processing spkr-embedded d-vec")
 for i, casespkr in enumerate(spkr_path):
@@ -115,4 +131,4 @@ for i, casespkr in enumerate(spkr_path):
         print('train items:', len(trn_seq_lst))
         print('test items:', len(test_seq_lst))
         break
-
+'''
