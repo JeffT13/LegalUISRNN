@@ -74,7 +74,7 @@ for i, case in enumerate(os.listdir(case_path)):
             break
 
 
-with open('./predicted_label.csv', newline='') as f:
+with open('./predicted_labels.csv', newline='') as f:
     reader = csv.reader(f)
     pred = list(reader)
 

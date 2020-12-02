@@ -80,12 +80,18 @@ model.load('./hold/sco50wav_case.pth')
 
 
 #inference and evaluation
-predicted_label = model.predict(test_seq_lst[0], inference_args)
+pred = model.predict(test_seq_lst[0], inference_args)
+ans = test_cluster_id[0]
 
+if verbose:
+    print("-- Inference --")
+    print(type(pred))
+    print(type(ans))
+    print(len(pred), len(ans))
 
 # opening the csv file in 'w+' mode 
-file = open('./predicted_label.csv', 'w+', newline ='') 
+file = open('./predicted_labels.csv', 'w+', newline ='') 
 # writing the data into the file 
 with file:     
     write = csv.writer(file) 
-    write.writerows(predicted_label) 
+    write.writerows(pred) 
