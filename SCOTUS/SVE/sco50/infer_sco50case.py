@@ -73,7 +73,7 @@ model_args.enable_cuda = True
 model_args.rnn_depth = 2
 model_args.rnn_hidden_size = 32
 inference_args.test_iteration = 1
-inference_args.beam_search = 2
+inference_args.beam_search = 4
 model = uisrnn.UISRNN(model_args)
 
 model.load('./hold/sco50wav_case.pth')
@@ -81,8 +81,8 @@ model.load('./hold/sco50wav_case.pth')
 
 #inference and evaluation (shrunk for running)
 
-pred = model.predict(test_seq_lst[0][:500], inference_args)
-ans = [i for i in test_cluster_lst[0][:500]]
+pred = model.predict(test_seq_lst[0][:1000], inference_args)
+ans = [i for i in test_cluster_lst[0][:1000]]
 
 if verbose:
     print("-- Inference --")
@@ -96,3 +96,11 @@ file = open('./predicted_labels.csv', 'w+', newline ='')
 with file:     
     write = csv.writer(file) 
     write.writerows([pred]) 
+
+tracker=0
+for i in enumerate(pred):
+    if i!=0:
+        tracker+=1
+        
+if tracker>0:
+    print('predicted other than 0!')
