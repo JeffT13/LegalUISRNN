@@ -103,4 +103,4 @@ for i in enumerate(pred):
         tracker+=1
         
 if tracker>0:
-    print('predicted other than 0!')
+    print('predicted other than 0! -> ', tracker)

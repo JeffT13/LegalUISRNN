@@ -79,6 +79,7 @@ with open('./predicted_labels.csv', newline='') as f:
     pred = list(reader)
 
 #ans = test_cluster_lst[0]
+pred = [int(i) for i in pred[0]]
 ans = [i for i in test_cluster_lst[0][:1000]]
 
 if verbose:
@@ -86,8 +87,15 @@ if verbose:
     print(type(pred), type(pred[0]))
     print(type(ans), type(ans[0]))
     print(len(pred), len(ans))
+    tracker=0
+    for i in enumerate(pred):
+        if i!=0:
+            tracker+=1
+            
+    if tracker>0:
+        print('predicted other than 0! -> ', tracker)
 
-    
+ 
 uisrnn.compute_sequence_match_accuracy(pred, ans)
 print("--", accuracy, "--")
 
