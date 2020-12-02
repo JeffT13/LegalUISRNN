@@ -1,4 +1,5 @@
-''' SCOTUS d-vec UISRNN processing'''
+''' SCOTUS d-vec UISRNN inference'''
+
 import sys
 sys.path.append("./LegalUISRNN")
 import numpy as np
@@ -62,26 +63,31 @@ for i, case in enumerate(os.listdir(case_path)):
             
             
 
-#Define UISRNN (**copy from training**)
+#Define UISRNN (**copy from training**) + load model
+
+
 model_args, training_args, inference_args = uisrnn.parse_arguments()
 model_args.verbosity=3 #can verbose=False for no prints except training
 model_args.observation_dim=256 #from hparam
 model_args.enable_cuda = True
 model_args.rnn_depth = 2
-#model_args.crp_alpha = .5
 model_args.rnn_hidden_size = 32
-
+inference_args.test_iteration = 1
+inference_args.beam_search = 10
 model = uisrnn.UISRNN(model_args)
 
-#load model
+
+
 model.load('./hold/sco50wav_case.pth')
 
+
+
 #inference and evaluation
-predicted_label = model.predict(test_seq_lst, inference_args)
+predicted_label = model.predict(test_seq_lst[0], inference_args)
 model.logger.print(3, 'Asserting the equivalence between'
         '\nGround truth: {}\nPredicted: {}'.format(
-            test_cluster_lst, predicted_label))
-accuracy = uisrnn.compute_sequence_match_accuracy(predicted_label, test_cluster_lst)
+            test_cluster_lst[0], predicted_label))
+accuracy = uisrnn.compute_sequence_match_accuracy(predicted_label, test_cluster_lst[0])
 print("--", accuracy, "--")
 
 
