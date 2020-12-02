@@ -1,4 +1,3 @@
-
 import sys
 sys.path.append("./LegalUISRNN")
 import numpy as np
@@ -8,9 +7,12 @@ import os
 import uisrnn
 
 
-#expects processed cases in data folder (take from Google Drive or PRINCE)
+#expects processed cases in data folder
 #case_path = '/scratch/jt2565/sco50/sco50wav_proc_case/' 
+#model_path = './hold/sco50wav_case.pt'
+
 case_path = '/mnt/c/Fall2020/Capstone/LegalUISRNN/data/sco50wav_proc_case/'
+model_path = '/mnt/c/Fall2020/Capstone/LegalUISRNN/data/sco50wav_case.pth'
 
 
 total_cases = (len(os.listdir(case_path))/2)
@@ -73,15 +75,38 @@ for i, case in enumerate(os.listdir(case_path)):
 
 
 
+
+'''
+print("--", "Inference", "--")
+model_args, training_args, inference_args = uisrnn.parse_arguments()
+model_args.verbosity=3 #can verbose=False for no prints except training
+model_args.observation_dim=256 #from hparam
+model_args.enable_cuda = False
+model_args.rnn_depth = 2
+model_args.rnn_hidden_size = 32
+inference_args.test_iteration = 1
+inference_args.beam_search = 2
+model = uisrnn.UISRNN(model_args)
+
+
+model.load(model_path)
+predicted_label = model.predict(test_seq_lst[0], inference_args)
+model.logger.print(3, 'Asserting the equivalence between'
+        '\nGround truth: {}\nPredicted: {}'.format(
+            test_cluster_lst[0], predicted_label))
+accuracy = uisrnn.compute_sequence_match_accuracy(predicted_label, test_cluster_lst[0])
+print("--", accuracy, "--")
+
+'''
+
+'''
 # Visualize dvecs
-
-
 concat_trn = np.concatenate(trn_seq_lst)
 print(concat_trn.shape)
 print(np.max(concat_trn))
 print(np.min(concat_trn))
 print(np.isnan(concat_trn).any()) 
-
+'''
 
 
 ''' 

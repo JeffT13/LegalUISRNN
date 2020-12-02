@@ -73,13 +73,10 @@ model_args.enable_cuda = True
 model_args.rnn_depth = 2
 model_args.rnn_hidden_size = 32
 inference_args.test_iteration = 1
-inference_args.beam_search = 10
+inference_args.beam_search = 2
 model = uisrnn.UISRNN(model_args)
 
-
-
 model.load('./hold/sco50wav_case.pth')
-
 
 
 #inference and evaluation
