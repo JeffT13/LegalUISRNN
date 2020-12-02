@@ -71,8 +71,6 @@ model_args.rnn_depth = 2
 #model_args.crp_alpha = .5
 model_args.rnn_hidden_size = 32
 
-
-
 model = uisrnn.UISRNN(model_args)
 
 #load model
