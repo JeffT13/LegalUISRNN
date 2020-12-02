@@ -3,8 +3,8 @@
 import sys
 sys.path.append("./LegalUISRNN")
 import numpy as np
+import os, csv
 import torch
-import os
 import uisrnn
 
 case_path = '/scratch/jt2565/sco50/sco50wav_proc_case/'
@@ -81,10 +81,11 @@ model.load('./hold/sco50wav_case.pth')
 
 #inference and evaluation
 predicted_label = model.predict(test_seq_lst[0], inference_args)
-model.logger.print(3, 'Asserting the equivalence between'
-        '\nGround truth: {}\nPredicted: {}'.format(
-            test_cluster_lst[0], predicted_label))
-accuracy = uisrnn.compute_sequence_match_accuracy(predicted_label, test_cluster_lst[0])
-print("--", accuracy, "--")
 
 
+# opening the csv file in 'w+' mode 
+file = open('./predicted_label.csv', 'w+', newline ='') 
+# writing the data into the file 
+with file:     
+    write = csv.writer(file) 
+    write.writerows(predicted_label) 
