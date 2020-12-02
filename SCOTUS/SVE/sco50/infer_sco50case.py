@@ -82,7 +82,7 @@ model.load('./hold/sco50wav_case.pth')
 #inference and evaluation (shrunk for running)
 
 pred = model.predict(test_seq_lst[0][:500], inference_args)
-ans = test_cluster_lst[0][:500]
+ans = [i for i in test_cluster_lst[0][:500]]
 
 if verbose:
     print("-- Inference --")
