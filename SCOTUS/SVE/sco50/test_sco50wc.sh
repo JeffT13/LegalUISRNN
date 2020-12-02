@@ -6,6 +6,6 @@
 #SBATCH --gres=gpu:1
 #SBATCH --mem=8GB
 #SBATCH --job-name=infercase50
-#SBATCH --output=casewavinfer.out
+#SBATCH --output=casewavinfer50.out
 
-python LegalUISRNN/SCOTUS/SVE/infer_sco50case.py
+python LegalUISRNN/SCOTUS/SVE/sco50/infer_sco50case.py

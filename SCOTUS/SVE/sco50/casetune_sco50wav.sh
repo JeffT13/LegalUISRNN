@@ -5,7 +5,7 @@
 #SBATCH --time=4:00:00
 #SBATCH --gres=gpu:1
 #SBATCH --mem=8GB
-#SBATCH --job-name=casetune
-#SBATCH --output=casewavtune.out
+#SBATCH --job-name=tunecase50
+#SBATCH --output=casewavtune50.out
 
-python LegalUISRNN/SCOTUS/SVE/tune_sco50wav_case.py
+python LegalUISRNN/SCOTUS/SVE/sco50/tune_sco50wav_case.py
