@@ -71,11 +71,11 @@ model_args.enable_cuda = True
 model_args.rnn_depth = 2
 model_args.rnn_hidden_size = 32
 model_args.rnn_dropout = .2
-model_args.crp_alpha = .8
+model_args.crp_alpha = 1
 #model_args.transition_bias, sigma2 = estimated
 
-training_args.learning_rate = 0.01
-training_args.train_iteration = 200
+training_args.learning_rate = 0.0005
+training_args.train_iteration = 1000
 training_args.enforce_cluster_id_uniqueness=False #based on dvec_SCOTUS
 training_args.batch_size = 10
 model = uisrnn.UISRNN(model_args) 
