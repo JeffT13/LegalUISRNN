@@ -78,9 +78,8 @@ with open('./predicted_labels.csv', newline='') as f:
     reader = csv.reader(f)
     pred = list(reader)
 
-#ans = test_cluster_lst[0]
 pred = [int(i) for i in pred[0]]
-ans = [i for i in test_cluster_lst[0][:1000]]
+ans = [i for i in test_cluster_lst[0]]
 
 if verbose:
     print("-- Inference --")
@@ -96,7 +95,7 @@ if verbose:
         print('predicted other than 0! -> ', tracker)
 
  
-uisrnn.compute_sequence_match_accuracy(pred, ans)
+accuracy = uisrnn.compute_sequence_match_accuracy(pred, ans)
 print("--", accuracy, "--")
 
 '''

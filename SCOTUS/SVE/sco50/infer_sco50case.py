@@ -79,8 +79,8 @@ model_args.crp_alpha = .8
 
 
 
-inference_args.test_iteration = 1
-inference_args.beam_search = 4
+inference_args.test_iteration = 2
+inference_args.beam_search = 10
 model = uisrnn.UISRNN(model_args)
 
 model.load('./sco50wav_250bs10.pth')
@@ -88,10 +88,10 @@ model.load('./sco50wav_250bs10.pth')
 
 #inference and evaluation (shrunk for running)
 
-pred = model.predict(test_seq_lst[0][:1000], inference_args)
-ans = [i for i in test_cluster_lst[0][:1000]]
+pred = model.predict(test_seq_lst[0], inference_args)
+ans = [i for i in test_cluster_lst[0]]
 
-if True:
+if verbose:
     print("-- Inference --")
     print(type(pred), type(pred[0]))
     print(type(ans), type(ans[0]))
