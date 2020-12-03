@@ -19,7 +19,7 @@ trn_cluster_lst = []
 test_seq_lst = []
 test_cluster_lst = []
 
-verbose = True
+verbose = False
 
 if verbose:
     print("\n", "="*50, "\n Processing case-embedded d-vec")
@@ -68,15 +68,22 @@ for i, case in enumerate(os.listdir(case_path)):
 
 model_args, training_args, inference_args = uisrnn.parse_arguments()
 model_args.verbosity=3 #can verbose=False for no prints except training
+
+# must match saved model
 model_args.observation_dim=256 #from hparam
 model_args.enable_cuda = True
 model_args.rnn_depth = 2
 model_args.rnn_hidden_size = 32
+model_args.rnn_dropout = .2
+model_args.crp_alpha = .8
+
+
+
 inference_args.test_iteration = 1
 inference_args.beam_search = 4
 model = uisrnn.UISRNN(model_args)
 
-model.load('./hold/sco50wav_case.pth')
+model.load('./sco50wav_250bs10.pth')
 
 
 #inference and evaluation (shrunk for running)
@@ -84,7 +91,7 @@ model.load('./hold/sco50wav_case.pth')
 pred = model.predict(test_seq_lst[0][:1000], inference_args)
 ans = [i for i in test_cluster_lst[0][:1000]]
 
-if verbose:
+if True:
     print("-- Inference --")
     print(type(pred), type(pred[0]))
     print(type(ans), type(ans[0]))
