@@ -1,0 +1,3 @@
+# UIS-RNN
+
+This is a folder containing tests and scripts for applying the UIS-RNN to the SCOTUS Oyez oral arguments to evaluate diarization capacity. The `testing` folder only contains tests to ensure your environment for training the network is correct and to evaluate the formatting of the input data. The `SVE` folder contains a script for the training the UIS-RNN on a subset of 50 cases embedded into d-vectors by [https://github.com/JeffT13/SpeakerVerificationEmbedding](our SpeechEmbedder) and evaluating diarization performance on a heldout case. Training is slow but doable, however inference is an extreme computational challenge. 
